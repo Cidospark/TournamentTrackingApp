@@ -231,6 +231,7 @@
             this.teamMembersListBox.Name = "teamMembersListBox";
             this.teamMembersListBox.Size = new System.Drawing.Size(432, 668);
             this.teamMembersListBox.TabIndex = 22;
+            
             // 
             // deleteSelectedMemberButton
             // 
