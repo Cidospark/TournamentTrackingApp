@@ -36,6 +36,7 @@ namespace TrackerUI
                 {
                     db.CreatePrize(model);
                 }
+                //GlobalConfig.Connections.CreatePrize(model)
 
                 MessageBox.Show("Price Added!", "Success Message");
 

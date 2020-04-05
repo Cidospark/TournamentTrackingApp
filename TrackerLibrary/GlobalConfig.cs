@@ -36,3 +36,28 @@ namespace TrackerLibrary
         }
     }
 }
+
+// public static IDataConnection Connection {get; set;}
+// add a class file and add enum
+/*
+ * public enum DatabaseType{Sql, TextFile}
+ */
+/*
+  public static void InitializeConnections(DatabaseType db)
+        {
+            if (db == DatabaseType.Sql)
+            {
+                // TODO - Create SQL Connection
+                SQLConnector sql = new SQLConnector();
+                Connections = sql;
+            }
+
+            if (textFiles)
+            {
+                // TODO - Create Text Connection
+                TextConnector text = new TextConnector();
+                Connections = text;
+            }
+        }
+
+*/
