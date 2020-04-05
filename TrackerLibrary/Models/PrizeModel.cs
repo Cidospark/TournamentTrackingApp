@@ -8,6 +8,7 @@ namespace TrackerLibrary.Models
 {
     public class PrizeModel
     {
+        public int Id { get; set; }
         public int PlaceNumber { get; set; }
         public string PlaceName { get; set; }
         public decimal PlaceAmount { get; set; }
@@ -17,7 +18,7 @@ namespace TrackerLibrary.Models
         {
         }
 
-        public PrizeModel(string placeName, string placeNumber, string placeAmount, string prizePercentage)
+        public PrizeModel(string placeNumber, string placeName, string placeAmount, string prizePercentage)
         {
             // default = <value>;
             // datatype.TryParse(<Value from textbox>, out <Returned textbox value if valid or default assigned value if invalid >)
