@@ -21,8 +21,29 @@ namespace TrackerUI
         public CreateTeamForm()
         {
             InitializeComponent();
-            CreateSampleData();
+            //CreateSampleData();
+            LoadListData();
             WireUpList();
+        }
+
+        private void LoadListData()
+        {
+            try
+            {
+                if (GlobalConfig.Connections.Count > 1)
+                {
+                    availableTeamMembers = new SQLConnector().GetAllPersons();
+                }
+                else
+                {
+                    if (GlobalConfig.Connections[0].ToString() == "TrackerLibrary.DataAccess.TextConnector")
+                        availableTeamMembers = new TextConnector().GetAllPersons();
+                    else
+                        availableTeamMembers = new SQLConnector().GetAllPersons();
+                }
+            }
+            catch(Exception ex) { MessageBox.Show($"Error loading into listbox, {ex.Message}", "Error Message"); }
+
         }
 
         private void CreateSampleData()
@@ -33,9 +54,11 @@ namespace TrackerUI
 
         private void WireUpList()
         {
+            selectTeamMemberDropDown.DataSource = null;
             selectTeamMemberDropDown.DataSource = availableTeamMembers;
             selectTeamMemberDropDown.DisplayMember = "FullName";
 
+            teamMembersListBox.DataSource = null;
             teamMembersListBox.DataSource = selectedTeamMembers;
             teamMembersListBox.DisplayMember = "FullName";
         }
@@ -55,6 +78,10 @@ namespace TrackerUI
                 {
                     db.CreatePerson(p);
                 }
+
+                // added to selected team members on creation
+                selectedTeamMembers.Add(p);
+                WireUpList();
 
                 firstNameText.Text = "";
                 LastNameTextBox.Text = "";
@@ -98,5 +125,26 @@ namespace TrackerUI
             return output;
         }
 
+        private void addMemberButton_Click(object sender, EventArgs e)
+        {
+            PersonModel p = (PersonModel)selectTeamMemberDropDown.SelectedItem;
+            if (p != null)
+            {
+                availableTeamMembers.Remove(p);
+                selectedTeamMembers.Add(p);
+                WireUpList();
+            }
+        }
+
+        private void removeSelectedMemberButton_Click(object sender, EventArgs e)
+        {
+            PersonModel p = (PersonModel)teamMembersListBox.SelectedItem;
+            if(p != null)
+            {
+                selectedTeamMembers.Remove(p);
+                availableTeamMembers.Insert(0, p);
+                WireUpList();
+            }
+        }
     }
 }

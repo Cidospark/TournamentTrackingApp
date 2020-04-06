@@ -6,14 +6,16 @@ using System.Text;
 using System.Threading.Tasks;
 using TrackerLibrary.Models;
 using System.Data;
+using System.Data.SqlClient;
 
 namespace TrackerLibrary.DataAccess
 {
     public class SQLConnector : IDataConnection
     {
+        private const string db = "Tournaments";
         public PersonModel CreatePerson(PersonModel model)
         {
-            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConString("Tournaments")))
+            using (IDbConnection connection = new SqlConnection(GlobalConfig.ConString(db)))
             {
                 var p = new DynamicParameters();
                 p.Add("@FirstName", model.FirstName);
@@ -36,7 +38,7 @@ namespace TrackerLibrary.DataAccess
             // create connection object, create dynamic parameters object from the dapper class
             // add fields to it, use the connection object to access the execute command
             //
-            using(IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConString("Tournaments")))
+            using(IDbConnection connection = new SqlConnection(GlobalConfig.ConString(db)))
             {
                 var p = new DynamicParameters();
                 p.Add("@PlaceNumber", model.PlaceNumber);
@@ -52,6 +54,16 @@ namespace TrackerLibrary.DataAccess
 
                 return model;
             }
+        }
+
+        public List<PersonModel> GetAllPersons()
+        {
+            List<PersonModel> output;
+            using (IDbConnection connection = new SqlConnection(GlobalConfig.ConString(db))) {
+                output = connection.Query<PersonModel>("dbo.spPeople_GetAll").ToList();
+            }
+
+            return output;
         }
     }
 }
