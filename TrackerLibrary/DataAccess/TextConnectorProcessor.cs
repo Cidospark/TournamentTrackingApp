@@ -96,6 +96,7 @@ namespace TrackerLibrary.DataAccess.TextHelpers
                     // and search for where the id is equal to the person id
                     t.TeamMembers.Add(people.Where(x => x.Id == int.Parse(id)).First());
                 }
+                output.Add(t);
             }
             return output;
         }

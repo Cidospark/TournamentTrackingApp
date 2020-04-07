@@ -195,6 +195,7 @@
             this.deleteSelectedPlayerButton.TabIndex = 20;
             this.deleteSelectedPlayerButton.Text = "Remove Selected";
             this.deleteSelectedPlayerButton.UseVisualStyleBackColor = false;
+            this.deleteSelectedPlayerButton.Click += new System.EventHandler(this.deleteSelectedPlayerButton_Click);
             // 
             // deleteSelectedPrizeButton
             // 
@@ -211,6 +212,7 @@
             this.deleteSelectedPrizeButton.TabIndex = 23;
             this.deleteSelectedPrizeButton.Text = "Remove Selected";
             this.deleteSelectedPrizeButton.UseVisualStyleBackColor = false;
+            this.deleteSelectedPrizeButton.Click += new System.EventHandler(this.deleteSelectedPrizeButton_Click);
             // 
             // prizesLabel
             // 
