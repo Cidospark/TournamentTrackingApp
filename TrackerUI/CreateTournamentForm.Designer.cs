@@ -123,6 +123,7 @@
             this.createNewTeamLink.TabIndex = 15;
             this.createNewTeamLink.TabStop = true;
             this.createNewTeamLink.Text = "Create new";
+            this.createNewTeamLink.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.createNewTeamLink_LinkClicked);
             // 
             // addTeamButton
             // 
@@ -156,6 +157,7 @@
             this.createPriceButton.TabIndex = 17;
             this.createPriceButton.Text = "Create Prize";
             this.createPriceButton.UseVisualStyleBackColor = false;
+            this.createPriceButton.Click += new System.EventHandler(this.createPriceButton_Click);
             // 
             // tournamentTeamListBox
             // 
@@ -191,7 +193,7 @@
             this.deleteSelectedPlayerButton.Name = "deleteSelectedPlayerButton";
             this.deleteSelectedPlayerButton.Size = new System.Drawing.Size(216, 101);
             this.deleteSelectedPlayerButton.TabIndex = 20;
-            this.deleteSelectedPlayerButton.Text = "Delete Selected";
+            this.deleteSelectedPlayerButton.Text = "Remove Selected";
             this.deleteSelectedPlayerButton.UseVisualStyleBackColor = false;
             // 
             // deleteSelectedPrizeButton
@@ -207,7 +209,7 @@
             this.deleteSelectedPrizeButton.Name = "deleteSelectedPrizeButton";
             this.deleteSelectedPrizeButton.Size = new System.Drawing.Size(216, 101);
             this.deleteSelectedPrizeButton.TabIndex = 23;
-            this.deleteSelectedPrizeButton.Text = "Delete Selected";
+            this.deleteSelectedPrizeButton.Text = "Remove Selected";
             this.deleteSelectedPrizeButton.UseVisualStyleBackColor = false;
             // 
             // prizesLabel

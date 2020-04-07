@@ -17,10 +17,13 @@ namespace TrackerUI
     {
         private List<PersonModel> availableTeamMembers = new List<PersonModel>();
         private List<PersonModel> selectedTeamMembers = new List<PersonModel>();
+        private ITeamRequester callingForm;
 
-        public CreateTeamForm()
+        public CreateTeamForm(ITeamRequester caller)
         {
             InitializeComponent();
+            callingForm = caller;
+
             //CreateSampleData();
             LoadListData();
             WireUpList();
@@ -116,6 +119,9 @@ namespace TrackerUI
                 }
 
                 MessageBox.Show($"Added!");
+
+                callingForm.TeamComplete(t);
+                this.Close();
 
             }
             catch (Exception ex) { MessageBox.Show($"Error loading into listbox, {ex.Message}", "Error Message"); }
