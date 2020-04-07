@@ -96,7 +96,29 @@ namespace TrackerUI
 
         private void createTeamButton_Click(object sender, EventArgs e)
         {
-            
+            TeamModel t = new TeamModel();
+
+            t.TeamName = teamNameText.Text;
+            t.TeamMembers = selectedTeamMembers;
+
+            try
+            {
+                if (GlobalConfig.Connections.Count > 1)
+                {
+                    t = new SQLConnector().CreateTeam(t);
+                }
+                else
+                {
+                    if (GlobalConfig.Connections[0].ToString() == "TrackerLibrary.DataAccess.TextConnector")
+                        t = new TextConnector().CreateTeam(t);
+                    else
+                        t = new SQLConnector().CreateTeam(t);
+                }
+
+                MessageBox.Show($"Added!");
+
+            }
+            catch (Exception ex) { MessageBox.Show($"Error loading into listbox, {ex.Message}", "Error Message"); }
         }
 
         private string validateForm()

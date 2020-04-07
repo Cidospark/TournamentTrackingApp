@@ -56,11 +56,56 @@ namespace TrackerLibrary.DataAccess
             }
         }
 
+        public TeamModel CreateTeam(TeamModel model)
+        {
+            using (IDbConnection connection = new SqlConnection(GlobalConfig.ConString(db)))
+            {
+                var p = new DynamicParameters();
+                p.Add("@TeamName", model.TeamName);
+                p.Add("@Id", 0, dbType: DbType.Int32, ParameterDirection.Output);
+
+                connection.Execute("dbo.spTeams_Insert", p, commandType: CommandType.StoredProcedure);
+
+                // The Id of the entry generated at the database and returned
+                model.Id = p.Get<int>("@Id");
+
+                foreach(PersonModel tm in model.TeamMembers)
+                {
+                    p = new DynamicParameters();
+                    p.Add("@TeamId", model.Id);
+                    p.Add("@PersonId", tm.Id);
+
+                    connection.Execute("dbo.spTeamMembers_Insert", p, commandType: CommandType.StoredProcedure);
+                }
+
+                return model;
+            }
+        }
+
         public List<PersonModel> GetAllPersons()
         {
             List<PersonModel> output;
             using (IDbConnection connection = new SqlConnection(GlobalConfig.ConString(db))) {
                 output = connection.Query<PersonModel>("dbo.spPeople_GetAll").ToList();
+            }
+
+            return output;
+        }
+
+        public List<TeamModel> GetAllTeams()
+        {
+            List<TeamModel> output;
+            using (IDbConnection connection = new SqlConnection(GlobalConfig.ConString(db)))
+            {
+                output = connection.Query<TeamModel>("dbo.spTeam_GetAll").ToList();
+
+                foreach(TeamModel team in output)
+                {
+                    var p = new DynamicParameters();
+                    p.Add("@TeamId", team.Id);
+
+                    team.TeamMembers = connection.Query<PersonModel>("dbo.spTeamMembers_GetByTeam", p, commandType: CommandType.StoredProcedure).ToList();
+                }
             }
 
             return output;
