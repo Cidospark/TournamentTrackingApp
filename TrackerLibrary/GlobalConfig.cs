@@ -10,6 +10,14 @@ namespace TrackerLibrary
 {
     public static class GlobalConfig
     {
+
+        public const string PrizesFile = "PrizeModels.csv";
+        public const string PeopleFile = "PersonModels.csv";
+        public const string TeamFile = "TeamModels.csv";
+        public const string TournamentFile = "TournamentModels.csv";
+        public const string MatchupFile = "MatchupModels.csv";
+        public const string MatchupEntryFile = "MatchupEntryModels.csv";
+
         // only methods in this class can change the settings of the connection cause the 'set' parameter is private
         public static List<IDataConnection> Connections { get; private set; } = new List<IDataConnection>();
 
