@@ -152,8 +152,8 @@ namespace TrackerUI
 
             // create all of the prizes entries
             // create all of the team entries
-            try
-            {
+            //try
+            //{
                 if (GlobalConfig.Connections.Count > 1)
                 {
                     new SQLConnector().CreateTournament(tm);
@@ -166,8 +166,8 @@ namespace TrackerUI
                         new SQLConnector().CreateTournament(tm);
                 }
 
-            }
-            catch (Exception ex) { MessageBox.Show($"Error saving, {ex.Message}", "Error Message"); }
+            //}
+            //catch (Exception ex) { MessageBox.Show($"Error saving, {ex.Message}", "Error Message"); }
 
 
         }
