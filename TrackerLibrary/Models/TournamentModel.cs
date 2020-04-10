@@ -14,5 +14,15 @@ namespace TrackerLibrary.Models
         public List<TeamModel> EnteredTeams { get; set; } = new List<TeamModel>();
         public List<PrizeModel> Prizes { get; set; } = new List<PrizeModel>();
         public List<List<MatchupModel>> Round { get; set; } = new List<List<MatchupModel>>();
+
+        internal int CheckCurrentRound()
+        {
+            throw new NotImplementedException();
+        }
+
+        internal void AlertUsersToNewRound()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -168,7 +168,9 @@ namespace TrackerUI
 
             //}
             //catch (Exception ex) { MessageBox.Show($"Error saving, {ex.Message}", "Error Message"); }
-            
+
+            tm.AlertUsersToNewRound();
+
             TournamentViewerForm frm = new TournamentViewerForm(tm);
             frm.Show();
             this.Close();
