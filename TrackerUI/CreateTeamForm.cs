@@ -108,14 +108,14 @@ namespace TrackerUI
             {
                 if (GlobalConfig.Connections.Count > 1)
                 {
-                    t = new SQLConnector().CreateTeam(t);
+                    GlobalConfig.Connections[0].CreateTeam(t);
                 }
                 else
                 {
                     if (GlobalConfig.Connections[0].ToString() == "TrackerLibrary.DataAccess.TextConnector")
-                        t = new TextConnector().CreateTeam(t);
+                        GlobalConfig.Connections[0].CreateTeam(t);
                     else
-                        t = new SQLConnector().CreateTeam(t);
+                        GlobalConfig.Connections[0].CreateTeam(t);
                 }
 
                 MessageBox.Show($"Added!");

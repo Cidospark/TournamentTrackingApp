@@ -13,7 +13,7 @@ namespace TrackerLibrary.DataAccess
     public class SQLConnector : IDataConnection
     {
         private const string db = "Tournaments";
-        public PersonModel CreatePerson(PersonModel model)
+        public void CreatePerson(PersonModel model)
         {
             using (IDbConnection connection = new SqlConnection(GlobalConfig.ConString(db)))
             {
@@ -27,13 +27,11 @@ namespace TrackerLibrary.DataAccess
                 connection.Execute("dbo.spPeople_Insert", p, commandType: CommandType.StoredProcedure);
 
                 // The Id of the entry generated at the database and returned
-                model.Id = p.Get<int>("@Id");
-
-                return model;
+                model.Id = p.Get<int>("@Id"); 
             }
         }
 
-        public PrizeModel CreatePrize(PrizeModel model)
+        public void CreatePrize(PrizeModel model)
         {
             // create connection object, create dynamic parameters object from the dapper class
             // add fields to it, use the connection object to access the execute command
@@ -51,12 +49,10 @@ namespace TrackerLibrary.DataAccess
 
                 // The Id of the entry generated at the database and returned
                 model.Id = p.Get<int>("@Id");
-
-                return model;
             }
         }
 
-        public TeamModel CreateTeam(TeamModel model)
+        public void CreateTeam(TeamModel model)
         {
             using (IDbConnection connection = new SqlConnection(GlobalConfig.ConString(db)))
             {
@@ -77,8 +73,6 @@ namespace TrackerLibrary.DataAccess
 
                     connection.Execute("dbo.spTeamMembers_Insert", p, commandType: CommandType.StoredProcedure);
                 }
-
-                return model;
             }
         }
 
@@ -93,6 +87,8 @@ namespace TrackerLibrary.DataAccess
                 SaveTournamentEntries(model, connection);
 
                 SaveTournamentRounds(model, connection);
+
+                TournamentLoginc.UpdateTournamentResults(model);
 
                 //return model;
             }
@@ -298,6 +294,35 @@ namespace TrackerLibrary.DataAccess
             }
 
             return output;
+        }
+
+        public void UpdateMatchup(MatchupModel model)
+        {
+            using (IDbConnection connection = new SqlConnection(GlobalConfig.ConString(db)))
+            {
+                var p = new DynamicParameters();
+                if (model.Winner != null)
+                {
+                    p.Add("@id", model.Id);
+                    p.Add("@WinnerId", model.Winner.Id);
+
+                    connection.Execute("dbo.spMatchups_Update", p, commandType: CommandType.StoredProcedure);
+                }
+
+                // spMatchupEntries_Update
+                foreach(MatchupEntryModel me in model.Entries)
+                {
+                    if (me.TeamCompeting != null)
+                    {
+                        p = new DynamicParameters();
+                        p.Add("@id", me.Id);
+                        p.Add("@TeamCompetingId", me.TeamCompeting.Id);
+                        p.Add("@Score", me.Score);
+
+                        connection.Execute("dbo.spMatchups_Update", p, commandType: CommandType.StoredProcedure);
+                    }
+                }
+            }
         }
     }
 }

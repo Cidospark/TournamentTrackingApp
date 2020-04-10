@@ -168,8 +168,10 @@ namespace TrackerUI
 
             //}
             //catch (Exception ex) { MessageBox.Show($"Error saving, {ex.Message}", "Error Message"); }
-
-
+            
+            TournamentViewerForm frm = new TournamentViewerForm(tm);
+            frm.Show();
+            this.Close();
         }
     }
 }
