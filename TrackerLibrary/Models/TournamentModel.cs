@@ -8,6 +8,7 @@ namespace TrackerLibrary.Models
 {
     public class TournamentModel
     {
+        public event EventHandler<DateTime> OnTournamentComplete;
         public int Id { get; set; }
         public string TournamentName { get; set; }
         public decimal EntryFee { get; set; }
@@ -24,5 +25,11 @@ namespace TrackerLibrary.Models
         {
             throw new NotImplementedException();
         }
+
+        public void CompletTournament()
+        {
+            OnTournamentComplete?.Invoke(this, DateTime.Now);
+        }
+
     }
 }
